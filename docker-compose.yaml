@@ -1,0 +1,66 @@
+services:
+  app:
+    hostname: localhost
+    build:
+      context: ./docker
+      dockerfile: Dockerfile
+    volumes:
+      - ./:/var/www/html
+      - ./docker/supervisor/supervisor.d/:/etc/supervisor.d/
+    user: root
+    command: sh -c "/bin/sh init.sh && /usr/bin/supervisord"
+    restart: always
+    depends_on:
+      postgres:
+        condition: service_healthy
+      keydb:
+        condition: service_healthy
+    ports:
+      - "80:80"
+    networks:
+      - network
+
+  keydb:
+    hostname: ${KEYDB_HOST}
+    image: eqalpha/keydb:alpine_x86_64_v6.3.3
+    volumes:
+      - keydb_data:/data
+    restart: always
+    ports:
+      - "6379:6379"
+    networks:
+      - network
+    healthcheck:
+      test: keydb-cli ping | grep PONG
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  postgres:
+    hostname: ${POSTGRES_HOST}
+    image: postgres:15.1
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DATABASE}
+    restart: always
+    ports:
+      - "5432:5432"
+    networks:
+      - network
+    healthcheck:
+      test: [ "CMD-SHELL",  "pg_isready -d $${POSTGRES_DB} -U $${POSTGRES_USER}" ]
+      interval: 1s
+      timeout: 3s
+
+networks:
+  network:
+    name: network
+
+volumes:
+  keydb_data:
+    name: keydb_data
+  postgres_data:
+    name: postgres_data

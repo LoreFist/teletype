@@ -33,12 +33,5 @@ return [
             'as log' => 'yii\queue\LogBehavior',
         ],
     ],
-    'container' => [
-        'definitions' => [
-            'yii\behaviors\TimestampBehavior' => [
-                'value' => new yii\db\Expression("NOW()"),
-            ],
-        ],
-    ],
     'params' => require __DIR__ . '/params.php',
 ];

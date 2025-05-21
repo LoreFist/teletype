@@ -8,16 +8,6 @@ return [
     'charset' => 'utf8',
     'emulatePrepare' => true,
     'enableSchemaCache' => true,
-    'schemaMap' => [
-        'pgsql' => [
-            'class' => 'yii\db\pgsql\Schema',
-            'defaultSchema' => $_ENV['POSTGRES_SCHEMA'],
-            'columnSchemaClass' => [
-                'class' => 'yii\db\pgsql\ColumnSchema',
-                'deserializeArrayColumnToArrayExpression' => false,
-            ],
-        ],
-    ],
     'on afterOpen' => function (yii\base\Event $event) {
         /** @var yii\db\Connection $sender */
         $sender = $event->sender;

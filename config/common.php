@@ -9,9 +9,9 @@ return [
         'log' => require __DIR__ . '/log.php',
         'redis' => [
             'class' => 'yii\redis\Connection',
-            'hostname' => $_ENV['KEYDB_HOST'],
-            'port' => $_ENV['KEYDB_PORT'],
-            'database' => $_ENV['KEYDB_DB'],
+            'hostname' => 'keydb', //$_ENV['KEYDB_HOST'],
+            'port' => '6379', //$_ENV['KEYDB_PORT'],
+            'database' => 0, //$_ENV['KEYDB_DB'],
             'retries' => 10,
             'retryInterval' => 200,
         ],

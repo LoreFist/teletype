@@ -15,7 +15,8 @@
     "ext-curl": "*",
     "ext-json": "*",
     "ext-pdo": "*",
-    "ext-redis": "*"
+    "ext-redis": "*",
+    "guzzlehttp/guzzle": "^7.9"
   },
   "require-dev": {
     "yiisoft/yii2-debug": "^2.1",
@@ -29,8 +30,6 @@
   "replace": {
     "symfony/polyfill-php72": "*",
     "symfony/polyfill-iconv": "*"
-  },
-  "autoload": {
   },
   "config": {
     "process-timeout": 1800,

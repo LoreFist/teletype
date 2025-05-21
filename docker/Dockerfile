@@ -16,7 +16,7 @@ RUN set -eux; \
         sudo \
         $PHPIZE_DEPS; \
     pecl install redis && docker-php-ext-enable redis; \
-    docker-php-ext-install pdo pdo_pgsql intl
+    docker-php-ext-install pdo pdo_pgsql intl opcache
 
 WORKDIR /var/www/html
 
@@ -33,6 +33,7 @@ COPY supervisor/conf.d/ /etc/supervisor/conf.d/
 
 COPY php-fpm/zz-docker.conf /usr/local/etc/php-fpm.d/zz-docker.conf
 RUN cp $PHP_INI_DIR/php.ini-production $PHP_INI_DIR/php.ini
+COPY php-fpm/cli/10-opcache.ini $PHP_INI_DIR/conf.d/
 
 COPY nginx/fastcgi-php.conf /etc/nginx/fastcgi-php.conf
 COPY nginx/nginx.conf /etc/nginx/nginx.conf

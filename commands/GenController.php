@@ -9,7 +9,7 @@ use yii\console\Controller;
 
 class GenController extends Controller
 {
-    public int $count = 1000;
+    public int $count = 10000;
 
     public function options($actionID): array
     {
@@ -32,6 +32,7 @@ class GenController extends Controller
      */
     public function actionIndex(): void
     {
+        ini_set('memory_limit', '-1');
         $start = microtime(true);
         for ($i = 1; $i <= $this->count; $i++) {
             $ts = microtime(true);
@@ -58,6 +59,7 @@ class GenController extends Controller
 
     public function actionAsync()
     {
+        ini_set('memory_limit', '-1');
         $start = microtime(true);
 
         $client = new Client([
